@@ -8,15 +8,6 @@ import java.awt.Point;
  * @author allyn
  */
 public class ConcreteHero extends BaseHero {
-//    int hp = super.hp;
-//    int kills = super.kills;
-//    int maxHp = super.maxHp;
-//    int maxDamage = super.maxDamage;
-//    int inventorySize = super.inventorySize;
-//    String name = super.name; 
-//    String color = super.color;
-//    String type = super.type;
-
     ConcreteHero pf;
 
     /**
@@ -52,15 +43,12 @@ public class ConcreteHero extends BaseHero {
     }
 
     /**
-     * takes health away from person you are fighting
-     */
-
-    /**
      * lose however much health the person you are fighting takes from you
+     * @param attacker - person fighting
      */
     public void getHit(ConcreteHero attacker) {
         //System.out.println(pf.maxHp + "   " + pf.name);
-        this.hp = this.hp - attacker.maxDamage;
+        this.hp -=  attacker.maxDamage;
     }
 
     /**
@@ -69,23 +57,15 @@ public class ConcreteHero extends BaseHero {
      */
     @Override
     public boolean isInBattle() {
-
-        if (isSomeoneAround()) {
-            //this.enemy();
-            return true;
-        }
-        return false;
+//        this.enemy();
+        return isSomeoneAround();
     }
 
     //all the checks check if someone is around
     public boolean checkUp() {
         double lx = location.getX(), ly = location.getY();
 
-        if (ly > gameboard.getHeight() - 1) {
-            return true;
-        }
-
-        return false;
+        return ly > gameboard.getHeight() - 1;
     }
 
     public void moveUp() {
@@ -101,11 +81,7 @@ public class ConcreteHero extends BaseHero {
 
     public boolean checkLeft() {
         double lx = location.getX(), ly = location.getY();
-        if (lx < 1) {
-            return true;
-        }
-
-        return false;
+        return lx < 1;
     }
 
     public void moveLeft() {
@@ -121,10 +97,8 @@ public class ConcreteHero extends BaseHero {
 
     public boolean checkRight() {
         double lx = location.getX(), ly = location.getY();
-        if (lx > gameboard.getWidth() - 1) {
-            return true;
-        }
-        return false;
+        
+        return lx > gameboard.getWidth() - 1;
     }
 
     public void moveRight() {
@@ -140,11 +114,8 @@ public class ConcreteHero extends BaseHero {
 
     public boolean checkDown() {
         double lx = location.getX(), ly = location.getY();
-        if (ly > 1) {
-            return true;
-        }
-
-        return false;
+        
+        return ly > 1;
     }
 
     public void moveDown() {
@@ -181,37 +152,40 @@ public class ConcreteHero extends BaseHero {
      */
     @Override
     public String enemy() {
-        return pf.name;
+        if(isSomeoneAround()){
+           // return pf.name;
+        }
+        return "not fighting";
     }
 
     /**
      *
-     * @return whether someone is in a gamesquare in any of the 8 spots.
+     * @return whether someone is in a game square in any of the 8 spots.
      */
     public boolean isSomeoneAround() {
 
-        if (gameboard.getGameSquare(new Point((int) location.getX() + 1, (int) location.getY())).heroesArePresent() && location.getX() < gameboard.getWidth()-1) {
+        if (gameboard.getGameSquare(new Point((int) location.getX() + 1, (int) location.getY())).heroesArePresent() && location.getX() < gameboard.getWidth() - 1) {
             pf = (ConcreteHero) gameboard.getGameSquare(new Point((int) location.getX() + 1, (int) location.getY())).getHeroesPresent().get(0);
             return true;
         } else if (gameboard.getGameSquare(new Point((int) location.getX() - 1, (int) location.getY())).heroesArePresent() && location.getX() > 1) {
             pf = (ConcreteHero) gameboard.getGameSquare(new Point((int) location.getX() - 1, (int) location.getY())).getHeroesPresent().get(0);
             return true;
-        } else if (gameboard.getGameSquare(new Point((int) location.getX(), (int) location.getY() + 1)).heroesArePresent() && location.getY() < gameboard.getHeight()-1) {
+        } else if (gameboard.getGameSquare(new Point((int) location.getX(), (int) location.getY() + 1)).heroesArePresent() && location.getY() < gameboard.getHeight() - 1) {
             pf = (ConcreteHero) gameboard.getGameSquare(new Point((int) location.getX(), (int) location.getY() + 1)).getHeroesPresent().get(0);
             return true;
         } else if (gameboard.getGameSquare(new Point((int) location.getX(), (int) location.getY() - 1)).heroesArePresent() && location.getY() > 1) {
             pf = (ConcreteHero) gameboard.getGameSquare(new Point((int) location.getX(), (int) location.getY() - 1)).getHeroesPresent().get(0);
             return true;
-        } else if (gameboard.getGameSquare(new Point((int) location.getX() - 1, (int) location.getY() + 1)).heroesArePresent() && location.getX() > 1 && location.getY() < gameboard.getHeight()-1) {
+        } else if (gameboard.getGameSquare(new Point((int) location.getX() - 1, (int) location.getY() + 1)).heroesArePresent() && location.getX() > 1 && location.getY() < gameboard.getHeight() - 1) {
             pf = (ConcreteHero) gameboard.getGameSquare(new Point((int) location.getX() - 1, (int) location.getY() + 1)).getHeroesPresent().get(0);
             return true;
         } else if (gameboard.getGameSquare(new Point((int) location.getX() - 1, (int) location.getY() - 1)).heroesArePresent() && location.getX() > 1 && location.getY() > 1) {
             pf = (ConcreteHero) gameboard.getGameSquare(new Point((int) location.getX() - 1, (int) location.getY() - 1)).getHeroesPresent().get(0);
             return true;
-        } else if (gameboard.getGameSquare(new Point((int) location.getX() + 1, (int) location.getY() + 1)).heroesArePresent() && location.getX() < gameboard.getWidth()-1 && location.getY() < gameboard.getHeight()-1) {
+        } else if (gameboard.getGameSquare(new Point((int) location.getX() + 1, (int) location.getY() + 1)).heroesArePresent() && location.getX() < gameboard.getWidth() - 1 && location.getY() < gameboard.getHeight() - 1) {
             pf = (ConcreteHero) gameboard.getGameSquare(new Point((int) location.getX() + 1, (int) location.getY() + 1)).getHeroesPresent().get(0);
             return true;
-        } else if (gameboard.getGameSquare(new Point((int) location.getX() + 1, (int) location.getY() - 1)).heroesArePresent() && location.getX() < gameboard.getWidth()-1 && location.getY() > 1) {
+        } else if (gameboard.getGameSquare(new Point((int) location.getX() + 1, (int) location.getY() - 1)).heroesArePresent() && location.getX() < gameboard.getWidth() - 1 && location.getY() > 1) {
             pf = (ConcreteHero) gameboard.getGameSquare(new Point((int) location.getX() + 1, (int) location.getY() - 1)).getHeroesPresent().get(0);
             return true;
         } else {
@@ -223,34 +197,39 @@ public class ConcreteHero extends BaseHero {
     /**
      * makes them fight person they are fighting (pf)
      */
-    public void battle() {
-        //ConcreteHero winner;
-        while (this.hp > 0 && pf.hp > 0) {
-            pf.getHit(this);
-            if (pf.isDead()) {
-                this.kills++;
-                break;
-
-            } 
-          
-            this.getHit(pf);
-            if (this.isDead()) {
-                pf.kills++;
-                break;
-            }
-        }
-    }
-
+//    public void battle() {
+//        //ConcreteHero winner;
+//        while (this.hp > 0 && pf.hp > 0) {
+//            pf.getHit(this);
+//            if (pf.isDead()) {
+//                this.kills++;
+//                break;
+//
+//            } 
+//          
+//            this.getHit(pf);
+//            if (this.isDead()) {
+//                pf.kills++;
+//                break;
+//            }
+//        }
+//    }
     /**
      *
      * @param l each action each second
      */
     @Override
     public void gameTickAction(long l) {
-        if (isDead()) {
+        if (this.isDead()) {
             this.die();
+            pf.kills++;
         } else if (isInBattle()) {
-            this.battle();
+            this.getHit(pf);
+            if (pf.isDead()) {
+                pf.die();
+                this.kills++;
+            }
+            pf.getHit(this);
 
         } else {
             this.move();
